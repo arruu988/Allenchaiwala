@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Allenchaiwala Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: system-ui;
+      max-width: 700px;
+      margin: auto;
+      padding: 20px;
+    }
+    .post {
+      margin-bottom: 30px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 15px;
+    }
+    h2 {
+      margin-bottom: 5px;
+    }
+    small {
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Allenchaiwala Blog ☕</h1>
+<div id="posts">Loading posts...</div>
+
+<script>
+fetch("/api/posts")
+  .then(res => res.json())
+  .then(data => {
+    const div = document.getElementById("posts");
+    div.innerHTML = "";
+
+    data.posts.forEach(p => {
+      div.innerHTML += `
+        <div class="post">
+          <h2>${p.title}</h2>
+          <small>${p.date}</small>
+          <p>${p.content}</p>
+        </div>
+      `;
+    });
+  })
+  .catch(() => {
+    document.getElementById("posts").innerText = "Failed to load posts";
+  });
+</script>
+
+</body>
+</html>
